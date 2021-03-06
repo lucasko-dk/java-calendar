@@ -35,11 +35,17 @@ public class Calendar {
 		//숫자 입력받아 그달의 최대일수 출력
 		Scanner scanner = new Scanner(System.in);
 		Calendar cal = new Calendar();
-		System.out.println("월 입력 ? " );
-//		String s1 = scanner.nextLine();
-		int mon = scanner.nextInt();
-		System.out.printf("%d 월의 최대 일수는 %d 입니다. \n", mon, cal.getMaxDaysOfMonth(mon));
-		cal.printSampleCalendar();
+		System.out.println("반복횟수룰 입력하세요 " );
+		int repeat = scanner.nextInt();
+		
+		for (int i=0 ; i <repeat ; i++ ) {
+			System.out.println("월 입력 ? " );
+//			String s1 = scanner.nextLine();
+			int mon = scanner.nextInt();
+			System.out.printf("%d 월의 최대 일수는 %d 입니다. \n", mon, cal.getMaxDaysOfMonth(mon));
+			cal.printSampleCalendar();
+		}
+		System.out.println("Bye!!" );	
         scanner.close();
 	}
 	
