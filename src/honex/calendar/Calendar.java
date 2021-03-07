@@ -1,9 +1,35 @@
 package honex.calendar;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Scanner;
+
 public class Calendar {
 
 	private static final int[] MAX_DAYS = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 	private static final int[] LEAP_MAX_DAYS = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+	
+	private HashMap< Date, PlanItem> planMap;
+	
+	public Calendar() { 
+		planMap = new HashMap<Date, PlanItem>();
+	}
+	
+	
+	public PlanItem searchPlan(String strDate) {
+		Date date = PlanItem.getDatefromstring(strDate);
+		return planMap.get(date);
+	}
+
+	public void registerPlan(String strDate, String Plan) {
+		PlanItem p = new PlanItem(strDate, Plan) ;
+		planMap.put(p.getDate(),p);
+		System.out.println("성공적으로 등록되었습니다..!!");
+		
+	}
+
 
 //	public static void main(String[] args) {
 //		Calendar calendar = new Calendar();
@@ -26,7 +52,6 @@ public class Calendar {
 				} else {
 					sDay = sDay + 365;
 				}
-//				System.out.println("year Days=> " + sDay);
 			}
 
 		}
@@ -39,12 +64,10 @@ public class Calendar {
 			} else {	
 				sDay = sDay + MAX_DAYS[i];
 			}
-//			System.out.println("Month Days=> " + sDay);			
 		}
 		
 		//day
 		sDay=sDay+day;
-//		System.out.println("sday=> " + sDay);
 		
 		int weekday ; 
 		//week day 
@@ -54,10 +77,6 @@ public class Calendar {
 			weekday = (sDay) % 7;
 			weekday = weekday+(STANDARD_WEEKDAY-1);
 		}	
-		
-//		System.out.println("total day= " + sDay);
-//		System.out.println("week day= " + weekday);
-//		System.out.println("weekday " + weekday);
 		
 		if (weekday==7) { weekday=0; }
 		return weekday;
@@ -99,14 +118,6 @@ public class Calendar {
 
 	public static int getMaxDaysOfMonth(int year, int mon) {
 
-//		switch(mon) { 
-//		case 1 :
-//			return 31;
-//		case 2 : 
-//			return 28;
-//		default : 
-//			return 30;
-//		}
 		if (isLeapYear(year)) {
 			return LEAP_MAX_DAYS[mon - 1];
 		} else {
@@ -117,7 +128,6 @@ public class Calendar {
 	public void printCalendar(int year, int month, int weekdayint) {
 
 		int cnt = 0;
-//		System.out.println("weekday int=> " + weekdayint);
 		System.out.printf("<< %4d년%3d월 >> \n", year, month);
 		System.out.println(" MO TU WE TH FR SA SU");
 		System.out.println("---------------------");
@@ -137,12 +147,6 @@ public class Calendar {
 			cnt++;
 		}
 
-//		for (int i = 0; i < getMaxDaysOfMonth(year, month); i++) {
-//			System.out.printf("%3d", i + 1);
-//			if ((i + 1) % 7 == 0) {
-//				System.out.println();
-//			}
-//		}
 		System.out.println("\n");
 //		System.out.println(" 1	 2	 3	 4	 5	 6	 7");
 //		System.out.println(" 8	 9	10	11	12	13	14");

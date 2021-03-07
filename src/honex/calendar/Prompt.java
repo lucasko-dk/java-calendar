@@ -1,5 +1,9 @@
 package honex.calendar;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -8,13 +12,19 @@ import java.util.Scanner;
  *         출력되도록 작성.
  */
 
-public class Prompt {
 
+public class Prompt {
+	
 	private final static String PROMPT_YEAR = "YEAR> ";
 	private final static String PROMPT_MONTH = "MONTH> ";
 	private final static String PROMPT_WEEKDAY = "WEEKDAY(SU,MO,TU,WE,TH,FR,SA)> ";
 
+
 	private void initPrompt() {
+		//switch문으로 변경 
+		//class로 구현하기 
+		//해쉬맵 생성자 초기화 + try catch 사용
+		//일정을 date객체로 저장하고 및 해쉬맵에서 검색 로직 추가
 		
 		System.out.println("----------------");
 		System.out.println("1. 일정 등록");
@@ -25,35 +35,64 @@ public class Prompt {
 		System.out.println("----------------");
 		Scanner scanner = new Scanner(System.in);
 		Calendar calendar = new Calendar();
+		boolean isLoop = true;
 
-		while (true) {
+		while (isLoop) {
 			System.out.println("명령 ( 1, 2, 3, h, q ) ");
 			String cmd = scanner.next();
-			if (cmd.equals("1")) cmdRegister();
-			else if (cmd.equals("2")) cmdSearch();
-			else if (cmd.equals("3")) cmdView(scanner, calendar);
-			else if (cmd.equals("h")) cmdHelp();
-			else if (cmd.equals("q")) break;
+			switch (cmd) {
+				case "1":
+					cmdRegister(scanner, calendar);
+					break;
+				case "2":
+					cmdSearch(scanner, calendar);
+					break;
+				case "3":
+					cmdView(scanner, calendar);
+					break;
+				case "h":
+					cmdHelp();
+					break;
+				case "q":
+					isLoop = false;
+					break;
+			}
 		}
+		
 		scanner.close();
 		System.out.println("Thank you..Bye!!");
 	}
 
-	private void cmdHelp() {
-		// TODO Auto-generated method stub
-
+	private void cmdSearch(Scanner s, Calendar c) {
+		System.out.println("[일정 검색]");
+		System.out.println("날짜를 입력해 주세요(yyyy-MM-dd)");
+		String date = s.next();
+		PlanItem plan ; 
+		plan = c.searchPlan(date);
+		if (plan != null) { 
+			System.out.println(plan.detail);
+		} else { 
+			System.out.println("일정이 없습니다.");
+		}
+//		System.out.println(plan);
 	}
 
-	private void cmdSearch() {
+	private void cmdRegister(Scanner s , Calendar c) {
 		// TODO Auto-generated method stub
-
+		System.out.println("[새 일정 등록]");
+		System.out.println("날짜를 입력해 주세요(yyyy-MM-dd)");
+		String date = s.next();
+		String text = ""; 
+		System.out.println("일정을 입력해 주세요 (문장끝에 ;)");
+		while(true) {
+			String word = s.next();
+			text += word + " "; 
+            if (word.endsWith(";")) break;			
+		}
+		text = text.replace(";", "");
+		c.registerPlan(date,text);
 	}
-
-	private void cmdRegister() {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 	public void cmdView(Scanner s, Calendar c) {
 		// weekday를 입력받지 않고 자동계산하여 출력한다
 		// 숫자 입력받아 그달의 최대일수 출력
@@ -137,6 +176,14 @@ public class Prompt {
 		scanner.close();
 
 	}
+	
+	public void cmdHelp() {
+		// TODO Auto-generated method stub
+
+	}
+
+	
+	
 
 	public static void main(String[] args) {
 
