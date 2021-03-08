@@ -5,39 +5,30 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PlanItem {
-	public Date  planDate;
+	
+	public static Date planDate;
 	public String detail;
-	public String peoples ="";
+	public String strDate;
 	
-	
-	public static Date getDatefromstring(String strDate) { 
-		Date date = null ; 
-		try {
-			date = new SimpleDateFormat("yyyy-MM-dd").parse(strDate);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return date;
-		
-	}
-	
-	public PlanItem(String date, String detail) {
+	public static Date getDatefromString(String date) {
+//		Date date1 = null;
 		try {
 			planDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		this.planDate = getDatefromstring(date);
-		this.detail = detail; // 나를 부른놈의 변수값을 초기화
+		return planDate; 
+		
 	}
 	
-	public Date getDate() {
-		return planDate;
+	public PlanItem(String date, String detail) {
+		this.planDate = getDatefromString(date);
+		this.detail = detail;
 	}
 	
-	public void addPeople(String name) { 
-		peoples += name + ",";	
+	public String getStringfromDate(Date planDate) {
+		strDate = planDate.toString();
+		return strDate; 
 	}
-	
 
 }

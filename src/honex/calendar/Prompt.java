@@ -1,9 +1,6 @@
 package honex.calendar;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -17,25 +14,26 @@ public class Prompt {
 	
 	private final static String PROMPT_YEAR = "YEAR> ";
 	private final static String PROMPT_MONTH = "MONTH> ";
-	private final static String PROMPT_WEEKDAY = "WEEKDAY(SU,MO,TU,WE,TH,FR,SA)> ";
+//	private final static String PROMPT_WEEKDAY = "WEEKDAY(SU,MO,TU,WE,TH,FR,SA)> ";
 
 
 	private void initPrompt() {
+		//json방식으로 저장하기 
+		//프로그램 시작할때 일정 불러오기 
+		//일정 화일로 저장하기 
 		//switch문으로 변경 
 		//class로 구현하기 
 		//해쉬맵 생성자 초기화 + try catch 사용
 		//일정을 date객체로 저장하고 및 해쉬맵에서 검색 로직 추가
 		
-		System.out.println("----------------");
-		System.out.println("1. 일정 등록");
-		System.out.println("2. 일정 검색");
-		System.out.println("3. 달력 보기");
-		System.out.println("h. 도움말");
-		System.out.println("q. 종료");
-		System.out.println("----------------");
+		
+
+
 		Scanner scanner = new Scanner(System.in);
 		Calendar calendar = new Calendar();
 		boolean isLoop = true;
+		
+		cmdPrintMenu(calendar);
 
 		while (isLoop) {
 			System.out.println("명령 ( 1, 2, 3, h, q ) ");
@@ -61,6 +59,29 @@ public class Prompt {
 		
 		scanner.close();
 		System.out.println("Thank you..Bye!!");
+	}
+
+	private void cmdPrintMenu(Calendar c) {
+		System.out.println("================");
+		System.out.println("저장된 일정");
+		System.out.println("================"+"\n");
+		System.out.println("----------------");
+		
+		try {
+			c.savedPlan();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println("================");
+		System.out.println("1. 일정 등록");
+		System.out.println("2. 일정 검색");
+		System.out.println("3. 달력 보기");
+		System.out.println("h. 도움말");
+		System.out.println("q. 종료");
+		System.out.println("================");
+		
 	}
 
 	private void cmdSearch(Scanner s, Calendar c) {
@@ -182,10 +203,8 @@ public class Prompt {
 
 	}
 
-	
-	
 
-	public static void main(String[] args) {
+	public static void main(String[] args){
 
 		Prompt prompt = new Prompt();
 		prompt.initPrompt();
